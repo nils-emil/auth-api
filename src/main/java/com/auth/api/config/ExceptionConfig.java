@@ -3,6 +3,7 @@ package com.auth.api.config;
 import com.auth.api.model.ValidationError;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -26,6 +27,13 @@ public class ExceptionConfig extends AuthorizationServerConfigurerAdapter {
         BindingResult result = ex.getBindingResult();
         List<org.springframework.validation.FieldError> fieldErrors = result.getFieldErrors();
         return new ValidationError(BAD_REQUEST.value(), "validation error");
+    }
+
+    @ResponseStatus(BAD_REQUEST)
+    @ResponseBody
+    @ExceptionHandler(DuplicateKeyException.class)
+    public ValidationError duplicateKeyException(DuplicateKeyException ex) {
+        return new ValidationError(BAD_REQUEST.value(), ex.getMessage());
     }
 
 

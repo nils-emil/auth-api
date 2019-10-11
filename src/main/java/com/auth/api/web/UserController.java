@@ -3,6 +3,7 @@ package com.auth.api.web;
 import com.auth.api.model.SessionUser;
 import com.auth.api.repository.SessionUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
@@ -42,10 +43,10 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void registerUser(@RequestBody @Valid SessionUser sessionUser) throws Exception {
         if (sessionUserRepository.findByEmailOrIdCode(sessionUser.getEmail()).isPresent()) {
-            throw new Exception("Account with given e-mail already exists");
+            throw new DuplicateKeyException("Account with given e-mail already exists");
         }
         if (sessionUserRepository.findByEmailOrIdCode(sessionUser.getIdCode()).isPresent()) {
-            throw new Exception("Account with given id code already exists");
+            throw new DuplicateKeyException("Account with given id code already exists");
         }
         sessionUser.setPassword(passwordEncoder.encode(sessionUser.getPassword()));
         sessionUserRepository.save(sessionUser);
