@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - include:
+      - file: v1/oauth_access_token.sql
+      - relativeToChangelogFile: true
+  - include:
+      - file: v1/oauth_refresh_token.sql
+      - relativeToChangelogFile: true
+  - include:
+      - file: v1/user.sql
+      - relativeToChangelogFile: true
+  - include:
+      - file: v1/oauth_client_details.sql
+      - relativeToChangelogFile: true

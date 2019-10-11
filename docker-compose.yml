@@ -1,0 +1,9 @@
+version: '3'
+services:
+  postgres:
+    build: docker/db/
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+
